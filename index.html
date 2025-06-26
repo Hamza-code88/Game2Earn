@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game2Earn</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>🐍 Game2Earn:</nav>
+
+  <div class="ad-banner">
+    
+  </div>
+
+  <div class="main-content">
+    <div class="game-preview">
+      <!-- <img src="https://via.placeholder.com/400x200?text=Snake+Game+Preview" alt="Snake Game Preview"> -->
+       <i class="fa-solid fa-staff-snake"></i>
+      <button class="play-btn" id="play-btn">
+        <i class="fas fa-play"></i> Play Game
+      </button>
+    </div>
+    
+    <div class="game-instructions">
+      <h2>How to Play</h2>
+      <ul>
+        <li>Use arrow keys or on-screen buttons to control the snake</li>
+        <li>Eat the food to grow longer and earn points</li>
+        <li>Complete each level by eating 10 foods</li>
+        <li>Avoid hitting the walls or yourself</li>
+        <li>Earn rewards for completing levels</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ad-banner">
+    <script type="text/javascript">
+	atOptions = {
+		'key' : '282760a4652150d34329ec1ed3f13097',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/282760a4652150d34329ec1ed3f13097/invoke.js"></script>
+  </div>
+
+  <footer>
+    &copy; 2025 Game2Earn. Built by Code-88
+  </footer>
+
+  <!-- Game UI (hidden by default) -->
+  <div class="game-ui" id="game-ui">
+    <div class="game-header">
+      <div>Score: <span id="score">0</span></div>
+      <div>Level: <span id="level">1</span></div>
+    </div>
+    
+    <div class="game-canvas-container">
+      <canvas id="game-canvas" width="400" height="400"></canvas>
+    </div>
+    
+    <div class="game-footer">
+      <div class="game-controls">
+        <button id="stop-btn"><i class="fas fa-pause"></i> Pause</button>
+        <button id="reset-btn"><i class="fas fa-redo"></i> Reset</button>
+      </div>
+      
+      <div class="mobile-controls">
+        <div class="mobile-controls-grid">
+          <button class="mobile-btn up" id="up-btn"><i class="fas fa-arrow-up"></i></button>
+          <button class="mobile-btn left" id="left-btn"><i class="fas fa-arrow-left"></i></button>
+          <button class="mobile-btn right" id="right-btn"><i class="fas fa-arrow-right"></i></button>
+          <button class="mobile-btn down" id="down-btn"><i class="fas fa-arrow-down"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level Complete Modal -->
+  <div class="modal-overlay" id="level-modal">
+    <div class="modal">
+      <h2>Level Complete!</h2>
+      <p>Congratulations! You've completed level <span id="modal-level">1</span> and earned a reward.</p>
+      <p>The reward page has been opened in a new tab.</p>
+      <button class="modal-btn" id="continue-btn">Continue Playing</button>
+    </div>
+  </div>
+
+  <!-- Countdown Overlay -->
+  <div class="countdown-overlay" id="countdown-overlay" style="display: none;"></div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
