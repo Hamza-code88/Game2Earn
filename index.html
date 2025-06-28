@@ -6,51 +6,506 @@
   <title>Game2Earn</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      touch-action: manipulation;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1rem;
+      font-size: 1.5rem;
+      text-align: center;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .ad-banner {
+      width: 90%;
+      max-width: 728px;
+      height: 90px;
+      background: #333;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      margin: 1rem 0;
+      border: 2px dashed #bbb;
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      padding: 1rem;
+    }
+
+    .game-preview {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 12px;
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .game-preview i {
+     font-size: 2rem;
+     color: #2ecc71;
+    }
+
+    .play-btn {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .play-btn:hover {
+      background: #27ae60;
+      transform: scale(1.05);
+    }
+
+    .game-instructions {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 12px;
+      padding: 1rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .game-instructions h2 {
+      margin-bottom: 0.5rem;
+      color: #2ecc71;
+    }
+
+    .game-instructions ul {
+      padding-left: 1.5rem;
+    }
+
+    .game-instructions li {
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      width: 100%;
+    }
+
+    /* Game UI Styles (hidden by default) */
+    .game-ui {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .game-header div {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .game-canvas-container {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #game-canvas {
+      background: repeating-linear-gradient(45deg, #000, #000 18px, #111 18px, #111 20px);
+      border: 2px solid #0f0;
+      border-radius: 10px;
+      max-width: 100%;
+      max-height: calc(100vh - 150px);
+      aspect-ratio: 1/1;
+    }
+
+    .game-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .game-controls button {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 5px;
+    }
+
+    .game-controls button:hover {
+      background: #27ae60;
+    }
+
+    /* Mobile Controls */
+    .mobile-controls {
+      display: none;
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .mobile-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+    }
+
+    .mobile-btn {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-btn:active {
+      transform: scale(0.95);
+      background-color: #27ae60;
+    }
+
+    .mobile-btn.up {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .mobile-btn.left {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .mobile-btn.right {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .mobile-btn.down {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    /* Level Complete Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background-color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal h2 {
+      color: #2ecc71;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .modal p {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .modal-btn {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-btn:hover {
+      background-color: #27ae60;
+    }
+
+    /* Countdown Styles */
+    .countdown-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      font-size: 5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* Page Modals */
+    .page-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 1rem;
+    }
+
+    .page-content {
+      background-color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #333;
+    }
+
+    .page-content h2 {
+      color: #2ecc71;
+      margin-bottom: 1rem;
+    }
+
+    .page-content p {
+      margin-bottom: 1rem;
+    }
+
+    .close-btn {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-controls {
+        display: block;
+      }
+      
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .nav-links {
+        width: 100%;
+        justify-content: space-around;
+      }
+      
+      .countdown-overlay {
+        font-size: 3rem;
+      }
+      
+      .game-header, .game-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .game-controls {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      nav {
+        font-size: 1.2rem;
+        padding: 0.8rem;
+      }
+      
+      .ad-banner {
+        height: 70px;
+      }
+      
+      .mobile-btn {
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .play-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <nav>🐍 Game2Earn:</nav>
+  <nav>
+    <span>🐍 Game2Earn</span>
+    <div class="nav-links">
+      <a href="#" id="home-link">Home</a>
+      <a href="#" id="about-link">About</a>
+      <a href="#" id="privacy-link">Privacy</a>
+      <a href="#" id="terms-link">Terms</a>
+    </div>
+  </nav>
 
   <div class="ad-banner">
-    
+    <!-- Top Ad Banner -->
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '282760a4652150d34329ec1ed3f13097',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/282760a4652150d34329ec1ed3f13097/invoke.js"></script>
   </div>
 
   <div class="main-content">
     <div class="game-preview">
-      <!-- <img src="https://via.placeholder.com/400x200?text=Snake+Game+Preview" alt="Snake Game Preview"> -->
-       <i class="fa-solid fa-staff-snake"></i>
+      <i class="fa-solid fa-staff-snake"></i>
+      <h1>Snake Game2Earn</h1>
+      <p>Play the classic snake game and earn rewards for completing levels!</p>
       <button class="play-btn" id="play-btn">
         <i class="fas fa-play"></i> Play Game
       </button>
+      
     </div>
     
     <div class="game-instructions">
-      <h2>How to Play</h2>
+      <h2>How to Play & Earn</h2>
       <ul>
         <li>Use arrow keys or on-screen buttons to control the snake</li>
         <li>Eat the food to grow longer and earn points</li>
         <li>Complete each level by eating 10 foods</li>
         <li>Avoid hitting the walls or yourself</li>
-        <li>Earn rewards for completing levels</li>
+        <li>Earn rewards for completing levels (opens in new tab)</li>
+        <li>Higher levels give better rewards</li>
       </ul>
+      <button class="play-btn" >
+        <a href="https://www.profitableratecpm.com/te3vdrfs?key=d775ecc4fb854ab5f3f80e1cea8c24dc" >Earn Money</a>
+      </button>
     </div>
   </div>
 
   <div class="ad-banner">
+    <!-- Bottom Ad Banner -->
     <script type="text/javascript">
-	atOptions = {
-		'key' : '282760a4652150d34329ec1ed3f13097',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/282760a4652150d34329ec1ed3f13097/invoke.js"></script>
+      atOptions = {
+        'key' : '282760a4652150d34329ec1ed3f13097',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/282760a4652150d34329ec1ed3f13097/invoke.js"></script>
   </div>
 
   <footer>
-    &copy; 2025 Game2Earn. Built by Code-88
+    <div class="footer-links">
+      <a href="#" id="footer-home">Home</a>
+      <a href="#" id="footer-about">About</a>
+      <a href="#" id="footer-privacy">Privacy Policy</a>
+      <a href="#" id="footer-terms">Terms & Conditions</a>
+    </div>
+    <div>&copy; 2025 Game2Earn. Built by Code-88</div>
   </footer>
 
   <!-- Game UI (hidden by default) -->
@@ -85,8 +540,21 @@
   <div class="modal-overlay" id="level-modal">
     <div class="modal">
       <h2>Level Complete!</h2>
-      <p>Congratulations! You've completed level <span id="modal-level">1</span> and earned a reward.</p>
-      <p>The reward page has been opened in a new tab.</p>
+      <p>Congratulations! You've completed level <span id="modal-level">1</span>!</p>
+      <p>Your reward is being opened in a new tab.</p>
+      <div class="ad-banner" style="margin: 1rem 0;">
+        <!-- Reward Ad -->
+        <script type="text/javascript">
+          atOptions = {
+            'key' : '282760a4652150d34329ec1ed3f13097',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/282760a4652150d34329ec1ed3f13097/invoke.js"></script>
+      </div>
       <button class="modal-btn" id="continue-btn">Continue Playing</button>
     </div>
   </div>
@@ -94,7 +562,557 @@
   <!-- Countdown Overlay -->
   <div class="countdown-overlay" id="countdown-overlay" style="display: none;"></div>
 
-  <script src="script.js"></script>
+  <!-- About Page Modal -->
+  <div class="page-modal" id="about-modal">
+    <div class="page-content">
+      <h2>About Game2Earn</h2>
+      <p>Game2Earn is a revolutionary platform that allows you to earn rewards while playing fun games. Our mission is to combine entertainment with earning potential.</p>
+      
+      <h3>How It Works</h3>
+      <p>Simply play our games, complete levels, and earn rewards. The more you play, the more you can earn!</p>
+      
+      <h3>Our Games</h3>
+      <p>We currently offer the classic Snake game with more games coming soon. Each game is carefully designed to be fun and rewarding.</p>
+      
+      <h3>Earning Potential</h3>
+      <p>Rewards are based on your performance and level completion. Higher levels unlock better rewards.</p>
+      
+      <button class="close-btn" id="close-about">Close</button>
+    </div>
+  </div>
 
+  <!-- Privacy Policy Modal -->
+  <div class="page-modal" id="privacy-modal">
+    <div class="page-content">
+      <h2>Privacy Policy</h2>
+      <p><strong>Last Updated:</strong> January 1, 2025</p>
+      
+      <h3>Information We Collect</h3>
+      <p>We may collect non-personal information about your gameplay, including scores, levels completed, and ad interactions. This helps us improve the game and provide better rewards.</p>
+      
+      <h3>How We Use Information</h3>
+      <p>We use collected information to:</p>
+      <ul>
+        <li>Improve our game experience</li>
+        <li>Provide personalized rewards</li>
+        <li>Display relevant advertisements</li>
+        <li>Analyze game performance</li>
+      </ul>
+      
+      <h3>Third-Party Services</h3>
+      <p>We use third-party advertising partners who may use cookies and similar technologies to provide personalized ads. These partners have their own privacy policies.</p>
+      
+      <h3>Data Security</h3>
+      <p>We implement security measures to protect your information, but no method is 100% secure.</p>
+      
+      <h3>Changes to This Policy</h3>
+      <p>We may update this policy periodically. We'll notify you of significant changes.</p>
+      
+      <button class="close-btn" id="close-privacy">Close</button>
+    </div>
+  </div>
+
+  <!-- Terms and Conditions Modal -->
+  <div class="page-modal" id="terms-modal">
+    <div class="page-content">
+      <h2>Terms & Conditions</h2>
+      <p><strong>Last Updated:</strong> January 1, 2025</p>
+      
+      <h3>Acceptance of Terms</h3>
+      <p>By using Game2Earn, you agree to these terms. If you don't agree, please don't use our service.</p>
+      
+      <h3>Gameplay Rules</h3>
+      <p>You agree to play fairly without using cheats, hacks, or exploits. Violations may result in account suspension.</p>
+      
+      <h3>Rewards Program</h3>
+      <p>Rewards are provided by our advertising partners. We reserve the right to modify or terminate the reward program at any time.</p>
+      
+      <h3>User Responsibilities</h3>
+      <p>You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account.</p>
+      
+      <h3>Limitation of Liability</h3>
+      <p>Game2Earn is not responsible for any technical issues that may prevent you from earning or receiving rewards.</p>
+      
+      <h3>Changes to Terms</h3>
+      <p>We may update these terms periodically. Continued use after changes constitutes acceptance.</p>
+      
+      <button class="close-btn" id="close-terms">Close</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('game-canvas');
+      const ctx = canvas.getContext('2d');
+      const scoreElement = document.getElementById('score');
+      const levelElement = document.getElementById('level');
+      const playBtn = document.getElementById('play-btn');
+      const gameUI = document.getElementById('game-ui');
+      const stopBtn = document.getElementById('stop-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const levelModal = document.getElementById('level-modal');
+      const modalLevel = document.getElementById('modal-level');
+      const continueBtn = document.getElementById('continue-btn');
+      const countdownOverlay = document.getElementById('countdown-overlay');
+      
+      // Mobile controls
+      const upBtn = document.getElementById('up-btn');
+      const leftBtn = document.getElementById('left-btn');
+      const rightBtn = document.getElementById('right-btn');
+      const downBtn = document.getElementById('down-btn');
+
+      // Page navigation elements
+      const aboutLink = document.getElementById('about-link');
+      const privacyLink = document.getElementById('privacy-link');
+      const termsLink = document.getElementById('terms-link');
+      const homeLink = document.getElementById('home-link');
+      const footerAbout = document.getElementById('footer-about');
+      const footerPrivacy = document.getElementById('footer-privacy');
+      const footerTerms = document.getElementById('footer-terms');
+      const footerHome = document.getElementById('footer-home');
+      const aboutModal = document.getElementById('about-modal');
+      const privacyModal = document.getElementById('privacy-modal');
+      const termsModal = document.getElementById('terms-modal');
+      const closeAbout = document.getElementById('close-about');
+      const closePrivacy = document.getElementById('close-privacy');
+      const closeTerms = document.getElementById('close-terms');
+
+      // Game variables
+      const gridSize = 20;
+      let snake = [];
+      let food = {};
+      let dx = 0;
+      let dy = 0;
+      let score = 0;
+      let level = 1;
+      let foodEaten = 0;
+      let gameSpeed = 150;
+      let gameLoop;
+      let changingDirection = false;
+      let gameStarted = false;
+      let isPaused = false;
+      let snakeLength = 1;
+
+      // Initialize game
+      resetGame();
+
+      // Event listeners
+      playBtn.addEventListener('click', startGame);
+      stopBtn.addEventListener('click', togglePause);
+      resetBtn.addEventListener('click', resetGame);
+      continueBtn.addEventListener('click', continueGame);
+      document.addEventListener('keydown', changeDirection);
+      
+      // Mobile control event listeners with touch support
+      upBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 38 });
+      });
+      leftBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 37 });
+      });
+      rightBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 39 });
+      });
+      downBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 40 });
+      });
+
+      // Also keep click events for devices with both touch and mouse
+      upBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 38 });
+      });
+      leftBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 37 });
+      });
+      rightBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 39 });
+      });
+      downBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        changeDirection({ keyCode: 40 });
+      });
+
+      // Page navigation event listeners
+      aboutLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        aboutModal.style.display = 'flex';
+      });
+      
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.style.display = 'flex';
+      });
+      
+      termsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsModal.style.display = 'flex';
+      });
+      
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Already on home page
+      });
+      
+      footerAbout.addEventListener('click', (e) => {
+        e.preventDefault();
+        aboutModal.style.display = 'flex';
+      });
+      
+      footerPrivacy.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.style.display = 'flex';
+      });
+      
+      footerTerms.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsModal.style.display = 'flex';
+      });
+      
+      footerHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Already on home page
+      });
+      
+      closeAbout.addEventListener('click', () => {
+        aboutModal.style.display = 'none';
+      });
+      
+      closePrivacy.addEventListener('click', () => {
+        privacyModal.style.display = 'none';
+      });
+      
+      closeTerms.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+      });
+
+      // Start game function
+      function startGame() {
+        gameUI.style.display = 'flex';
+        startWithCountdown();
+      }
+      
+      // Toggle pause function
+      function togglePause() {
+        if (!gameStarted) return;
+        
+        isPaused = !isPaused;
+        
+        if (isPaused) {
+          clearInterval(gameLoop);
+          stopBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+        } else {
+          stopBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+          gameLoop = setInterval(main, gameSpeed);
+        }
+      }
+
+      // Start game with countdown
+      function startWithCountdown() {
+        levelModal.classList.remove('active');
+        
+        // Show countdown
+        countdownOverlay.style.display = 'flex';
+        let count = 3;
+        countdownOverlay.textContent = count;
+        
+        const countdownInterval = setInterval(() => {
+          count--;
+          if (count > 0) {
+            countdownOverlay.textContent = count;
+          } else {
+            clearInterval(countdownInterval);
+            countdownOverlay.style.display = 'none';
+            actuallyStartGame();
+          }
+        }, 1000);
+      }
+
+      // New function to handle the actual game start
+      function actuallyStartGame() {
+        gameStarted = true;
+        isPaused = false;
+        stopBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        
+        // Initial direction
+        if (dx === 0 && dy === 0) {
+          dx = gridSize;
+          dy = 0;
+        }
+        
+        gameLoop = setInterval(main, gameSpeed);
+      }
+
+      // Continue game after pause
+      function continueGame() {
+        levelModal.classList.remove('active');
+        startWithCountdown();
+      }
+
+      // Main game function
+      function main() {
+        if (didGameEnd()) {
+          clearInterval(gameLoop);
+          gameStarted = false;
+          showGameOver();
+          return;
+        }
+
+        if (isPaused) return;
+
+        changingDirection = false;
+        setTimeout(() => {
+          moveSnake();
+          drawGame();
+
+          if (didEatFood()) {
+            increaseScore();
+            createFood();
+          }
+        }, 0);
+      }
+
+      // Draw game elements
+      function drawGame() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw food
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(food.x + gridSize/2, food.y + gridSize/2, gridSize/2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#c0392b';
+        ctx.stroke();
+        
+        // Draw snake
+        snake.forEach((part, index) => {
+          // Gradient effect for snake head
+          if (index === 0) {
+            const gradient = ctx.createLinearGradient(
+              part.x, part.y, 
+              part.x + gridSize, part.y + gridSize
+            );
+            gradient.addColorStop(0, '#00b894');
+            gradient.addColorStop(1, '#55efc4');
+            ctx.fillStyle = gradient;
+          } else {
+            // Body gets darker towards the tail
+            const darkness = Math.min(0.7, index / snakeLength * 0.7);
+            ctx.fillStyle = `rgba(0, 184, 148, ${1 - darkness})`;
+          }
+          
+          ctx.fillRect(part.x, part.y, gridSize, gridSize);
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+          ctx.strokeRect(part.x, part.y, gridSize, gridSize);
+          
+          // Eyes for the head
+          if (index === 0) {
+            ctx.fillStyle = 'white';
+            // Left eye
+            ctx.beginPath();
+            const leftEyeX = dx > 0 ? part.x + gridSize - 5 : 
+                              dx < 0 ? part.x + 5 : 
+                              part.x + gridSize/2 - 3;
+            const leftEyeY = dy > 0 ? part.y + 5 : 
+                            dy < 0 ? part.y + gridSize - 5 : 
+                            part.y + gridSize/2 - 3;
+            ctx.arc(leftEyeX, leftEyeY, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Right eye
+            ctx.beginPath();
+            const rightEyeX = dx > 0 ? part.x + gridSize - 5 : 
+                               dx < 0 ? part.x + 5 : 
+                               part.x + gridSize/2 + 3;
+            const rightEyeY = dy > 0 ? part.y + 5 : 
+                             dy < 0 ? part.y + gridSize - 5 : 
+                             part.y + gridSize/2 + 3;
+            ctx.arc(rightEyeX, rightEyeY, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Pupils
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(leftEyeX, leftEyeY, 1, 0, Math.PI * 2);
+            ctx.arc(rightEyeX, rightEyeY, 1, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+      }
+
+      // Move snake
+      function moveSnake() {
+        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+        snake.unshift(head);
+        snakeLength++;
+
+        if (!didEatFood()) {
+          snake.pop();
+          snakeLength--;
+        }
+      }
+
+      // Change direction
+      function changeDirection(event) {
+        if (!gameStarted || changingDirection || isPaused) return;
+        changingDirection = true;
+
+        const keyPressed = event.keyCode;
+        const LEFT = 37;
+        const RIGHT = 39;
+        const UP = 38;
+        const DOWN = 40;
+
+        const goingUp = dy === -gridSize;
+        const goingDown = dy === gridSize;
+        const goingRight = dx === gridSize;
+        const goingLeft = dx === -gridSize;
+
+        if (keyPressed === LEFT && !goingRight) {
+          dx = -gridSize;
+          dy = 0;
+        }
+
+        if (keyPressed === UP && !goingDown) {
+          dx = 0;
+          dy = -gridSize;
+        }
+
+        if (keyPressed === RIGHT && !goingLeft) {
+          dx = gridSize;
+          dy = 0;
+        }
+
+        if (keyPressed === DOWN && !goingUp) {
+          dx = 0;
+          dy = gridSize;
+        }
+      }
+
+      // Check if game ended
+      function didGameEnd() {
+        for (let i = 4; i < snake.length; i++) {
+          if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+        }
+
+        const hitLeftWall = snake[0].x < 0;
+        const hitRightWall = snake[0].x > canvas.width - gridSize;
+        const hitTopWall = snake[0].y < 0;
+        const hitBottomWall = snake[0].y > canvas.height - gridSize;
+
+        return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
+      }
+
+      // Create food
+      function createFood() {
+        food = {
+          x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+          y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+        };
+
+        // Check if food is created on snake
+        snake.forEach(part => {
+          const foodOnSnake = part.x === food.x && part.y === food.y;
+          if (foodOnSnake) createFood();
+        });
+      }
+
+      // Check if snake ate food
+      function didEatFood() {
+        return snake[0].x === food.x && snake[0].y === food.y;
+      }
+
+      // Increase score
+      function increaseScore() {
+        score += 10;
+        foodEaten++;
+        scoreElement.textContent = score;
+
+        if (foodEaten >= 10) {
+          levelUp();
+        }
+      }
+
+      // Level up
+      function levelUp() {
+        level++;
+        foodEaten = 0;
+        levelElement.textContent = level;
+        modalLevel.textContent = level - 1;
+        
+        // Increase game speed (cap at minimum 50ms)
+        if (gameSpeed > 50) {
+          gameSpeed -= 10;
+          clearInterval(gameLoop);
+        }
+        
+        // Pause game and show modal
+        isPaused = true;
+        clearInterval(gameLoop);
+        levelModal.classList.add('active');
+        
+        // Open reward window
+        setTimeout(() => {
+          window.open("https://www.profitableratecpm.com/xqq0jqpqd?key=87fe9b1aec8f8deeb0771dd72edde06b", "_blank");
+        }, 500);
+      }
+
+      // Show game over message
+      function showGameOver() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#e74c3c';
+        ctx.font = 'bold 30px Poppins';
+        ctx.textAlign = 'center';
+        ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
+        
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Poppins';
+        ctx.fillText(`Final Score: ${score}`, canvas.width/2, canvas.height/2 + 20);
+        ctx.fillText(`Level Reached: ${level}`, canvas.width/2, canvas.height/2 + 50);
+        
+        ctx.fillStyle = '#3498db';
+        ctx.fillRect(canvas.width/2 - 100, canvas.height/2 + 90, 200, 40);
+        ctx.fillStyle = 'white';
+        ctx.font = '16px Poppins';
+        ctx.fillText('Click to Restart', canvas.width/2, canvas.height/2 + 115);
+        
+        canvas.addEventListener('click', resetGame, { once: true });
+      }
+
+      // Reset game
+      function resetGame() {
+        clearInterval(gameLoop);
+        score = 0;
+        level = 1;
+        foodEaten = 0;
+        gameSpeed = 150;
+        dx = 0;
+        dy = 0;
+        snake = [{ x: 200, y: 200 }];
+        snakeLength = 1;
+        gameStarted = false;
+        isPaused = false;
+        
+        scoreElement.textContent = score;
+        levelElement.textContent = level;
+        
+        createFood();
+        drawGame();
+        
+        if (gameUI.style.display === 'flex') {
+          startWithCountdown();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
