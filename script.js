@@ -19,6 +19,22 @@
       const rightBtn = document.getElementById('right-btn');
       const downBtn = document.getElementById('down-btn');
 
+      // Page navigation elements
+      const aboutLink = document.getElementById('about-link');
+      const privacyLink = document.getElementById('privacy-link');
+      const termsLink = document.getElementById('terms-link');
+      const homeLink = document.getElementById('home-link');
+      const footerAbout = document.getElementById('footer-about');
+      const footerPrivacy = document.getElementById('footer-privacy');
+      const footerTerms = document.getElementById('footer-terms');
+      const footerHome = document.getElementById('footer-home');
+      const aboutModal = document.getElementById('about-modal');
+      const privacyModal = document.getElementById('privacy-modal');
+      const termsModal = document.getElementById('terms-modal');
+      const closeAbout = document.getElementById('close-about');
+      const closePrivacy = document.getElementById('close-privacy');
+      const closeTerms = document.getElementById('close-terms');
+
       // Game variables
       const gridSize = 20;
       let snake = [];
@@ -79,6 +95,59 @@
       downBtn.addEventListener('click', (e) => {
         e.preventDefault();
         changeDirection({ keyCode: 40 });
+      });
+
+      // Page navigation event listeners
+      aboutLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        aboutModal.style.display = 'flex';
+      });
+      
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.style.display = 'flex';
+      });
+      
+      termsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsModal.style.display = 'flex';
+      });
+      
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Already on home page
+      });
+      
+      footerAbout.addEventListener('click', (e) => {
+        e.preventDefault();
+        aboutModal.style.display = 'flex';
+      });
+      
+      footerPrivacy.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.style.display = 'flex';
+      });
+      
+      footerTerms.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsModal.style.display = 'flex';
+      });
+      
+      footerHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Already on home page
+      });
+      
+      closeAbout.addEventListener('click', () => {
+        aboutModal.style.display = 'none';
+      });
+      
+      closePrivacy.addEventListener('click', () => {
+        privacyModal.style.display = 'none';
+      });
+      
+      closeTerms.addEventListener('click', () => {
+        termsModal.style.display = 'none';
       });
 
       // Start game function

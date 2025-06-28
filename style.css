@@ -1,5 +1,4 @@
-
-    * {
+ * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -23,6 +22,20 @@
       text-align: center;
       width: 100%;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
     }
 
     .ad-banner {
@@ -311,9 +324,64 @@
       color: white;
     }
 
+    /* Page Modals */
+    .page-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 1rem;
+    }
+
+    .page-content {
+      background-color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #333;
+    }
+
+    .page-content h2 {
+      color: #2ecc71;
+      margin-bottom: 1rem;
+    }
+
+    .page-content p {
+      margin-bottom: 1rem;
+    }
+
+    .close-btn {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
     @media (max-width: 768px) {
       .mobile-controls {
         display: block;
+      }
+      
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .nav-links {
+        width: 100%;
+        justify-content: space-around;
       }
       
       .countdown-overlay {
@@ -353,4 +421,3 @@
         font-size: 1rem;
       }
     }
-  
