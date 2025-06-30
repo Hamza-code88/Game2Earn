@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(gameLoop);
     
     // Check if we need to show the special code modal (after level 2)
-    if (level === 3) {
+    if (level === 4) {
        setTimeout(() => {
         window.open("https://www.profitableratecpm.com/xqq0jqpqd?key=87fe9b1aec8f8deeb0771dd72edde06b", "_blank");
       }, 500);
